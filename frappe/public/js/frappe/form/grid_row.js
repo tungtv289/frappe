@@ -316,8 +316,12 @@ export default class GridRow {
 		}
 
 		this.setup_columns();
-		this.add_open_form_button();
-		this.add_column_configure_button();
+
+		if(this.frm.doctype !== "Stock Entry") {
+			this.add_open_form_button();
+			this.add_column_configure_button();
+		}
+
 		this.refresh_check();
 
 		if (this.frm && this.doc) {
