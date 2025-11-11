@@ -317,7 +317,7 @@ export default class GridRow {
 
 		this.setup_columns();
 
-		if(this.frm.doctype !== "Stock Entry") {
+		if (this.frm && this.frm.doctype !== "Stock Entry") {
 			this.add_open_form_button();
 			this.add_column_configure_button();
 		}
