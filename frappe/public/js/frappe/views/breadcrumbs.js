@@ -48,6 +48,19 @@ frappe.breadcrumbs = {
 		return frappe.get_route_str();
 	},
 
+	setAgrWorkspaceCrumb() {
+		const workspace_slug = "vật-tư,-ấn-chỉ";  // slug trong URL
+		const workspace_label = "Vật tư, ấn chỉ";  // nhãn hiển thị trong breadcrumb
+
+		const $breadcrumbs = $("#navbar-breadcrumbs");
+
+		$breadcrumbs.prepend(`
+			<li class="breadcrumb-item">
+				<a href="/app/${workspace_slug}">${__(workspace_label)}</a>
+			</li>
+		`);
+	},
+
 	update() {
 		var breadcrumbs = this.all[frappe.breadcrumbs.current_page()];
 
@@ -57,20 +70,30 @@ frappe.breadcrumbs = {
 		if (breadcrumbs.type === "Custom") {
 			this.set_custom_breadcrumbs(breadcrumbs);
 		} else {
-			// workspace
-			this.set_workspace_breadcrumb(breadcrumbs);
-
-			// form / print
 			let view = frappe.get_route()[0];
 			view = view ? view.toLowerCase() : null;
+
+			if (["form", "list"].includes(view) && ["Stock Entry", "Item", "Item Price", "Warehouse", "Material Request", "UOM", "Item Group", "Bin"].includes(breadcrumbs.doctype)) {
+				this.setAgrWorkspaceCrumb();
+			} else if (view === "query-report" && ["Stock Ledger", "Stock Balance"].includes(frappe.get_route()[1])) {
+				this.setAgrWorkspaceCrumb();
+			} else if (view === "dashboard-view" && ["Stock"].includes(frappe.get_route()[1])) {
+				this.setAgrWorkspaceCrumb();
+			} else {
+				// workspace
+				this.set_workspace_breadcrumb(breadcrumbs);
+			}
+
 			if (breadcrumbs.doctype && ["print", "form"].includes(view)) {
 				this.set_list_breadcrumb(breadcrumbs);
 				this.set_form_breadcrumb(breadcrumbs, view);
 			} else if (breadcrumbs.doctype && view === "list") {
 				this.set_list_breadcrumb(breadcrumbs);
 			} else if (breadcrumbs.doctype && view == "dashboard-view") {
-				this.set_list_breadcrumb(breadcrumbs);
-				this.set_dashboard_breadcrumb(breadcrumbs);
+				if (!(view === "dashboard-view" && ["Stock"].includes(frappe.get_route()[1]))) {
+					this.set_list_breadcrumb(breadcrumbs);
+					this.set_dashboard_breadcrumb(breadcrumbs);
+				}
 			}
 		}
 
