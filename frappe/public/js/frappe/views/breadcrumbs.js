@@ -79,6 +79,8 @@ frappe.breadcrumbs = {
 				this.setAgrWorkspaceCrumb();
 			} else if (view === "dashboard-view" && ["Stock"].includes(frappe.get_route()[1])) {
 				this.setAgrWorkspaceCrumb();
+			} else if (view === "stock-balance") {
+				this.setAgrWorkspaceCrumb();
 			} else {
 				// workspace
 				this.set_workspace_breadcrumb(breadcrumbs);
