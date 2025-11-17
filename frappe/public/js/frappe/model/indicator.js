@@ -58,6 +58,7 @@ frappe.get_indicator = function (doc, doctype, show_workflow_state) {
 					Warning: "orange",
 					Danger: "red",
 					Primary: "blue",
+					DarkPrimary: "dark-blue",
 					Inverse: "black",
 					Info: "light-blue",
 				}[locals["Workflow State"][value].style];

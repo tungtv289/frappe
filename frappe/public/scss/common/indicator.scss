@@ -49,7 +49,7 @@
 }
 
 $indicator-colors: green, cyan, blue, orange, yellow, gray, grey, red, pink, darkgrey, purple,
-	light-blue;
+	light-blue, dark-blue;
 @each $color in $indicator-colors {
 	.indicator.#{"" + $color} {
 		&::before,
