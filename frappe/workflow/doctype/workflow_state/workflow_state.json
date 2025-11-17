@@ -34,13 +34,13 @@
    "fieldname": "style",
    "fieldtype": "Select",
    "label": "Style",
-   "options": "\nPrimary\nInfo\nSuccess\nWarning\nDanger\nInverse"
+   "options": "\nPrimary\nDarkPrimary\nInfo\nSuccess\nWarning\nDanger\nInverse"
   }
  ],
  "icon": "fa fa-flag",
  "idx": 1,
  "links": [],
- "modified": "2023-12-08 15:52:37.525003",
+ "modified": "2025-11-17 13:45:46.691751",
  "modified_by": "Administrator",
  "module": "Workflow",
  "name": "Workflow State",
@@ -63,6 +63,7 @@
   }
  ],
  "quick_entry": 1,
+ "row_format": "Dynamic",
  "show_name_in_global_search": 1,
  "sort_field": "modified",
  "sort_order": "DESC",
