@@ -73,7 +73,7 @@ frappe.breadcrumbs = {
 			let view = frappe.get_route()[0];
 			view = view ? view.toLowerCase() : null;
 
-			if (["form", "list"].includes(view) && ["Stock Entry", "Item", "Item Price", "Warehouse", "Material Request", "UOM", "Item Group", "Bin"].includes(breadcrumbs.doctype)) {
+			if (["form", "list", "tree"].includes(view) && ["Stock Entry", "Item", "Item Price", "Warehouse", "Material Request", "UOM", "Item Group", "Bin"].includes(breadcrumbs.doctype)) {
 				this.setAgrWorkspaceCrumb();
 			} else if (view === "query-report" && ["Stock Ledger", "Stock Balance"].includes(frappe.get_route()[1])) {
 				this.setAgrWorkspaceCrumb();
