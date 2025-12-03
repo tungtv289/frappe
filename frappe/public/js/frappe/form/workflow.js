@@ -32,7 +32,7 @@ frappe.ui.form.States = class FormStates {
 					const next_actions =
 						$.map(
 							transitions,
-							(d) => `${d.action.bold()} ${__("by Role")} ${d.allowed}`
+							(d) => `${__(d.action).bold()} ${__("by Role")} ${d.allowed}`
 						).join(", ") || __("None: End of Workflow").bold();
 
 					const document_editable_by = frappe.workflow
@@ -43,7 +43,7 @@ frappe.ui.form.States = class FormStates {
 					$(d.body)
 						.html(
 							`
-					<p>${__("Current status")}: ${state.bold()}</p>
+					<p>${__("Current status")}: ${__(state).bold()}</p>
 					<p>${__("Document is only editable by users with role")}: ${document_editable_by}</p>
 					<p>${__("Next actions")}: ${next_actions}</p>
 					<p>${__("{0}: Other permission rules may also apply", [__("Note").bold()])}</p>
