@@ -103,3 +103,39 @@
 		@extend .my-auto;
 	}
 }
+
+.navbar {
+		/* Apply styles only to first-level navbar items (anchors/icons directly under .navbar-nav)
+	   This avoids affecting nested controls (search input icons, dropdown-item icons, etc.) */
+	> .container .navbar-nav > .nav-item > .nav-link,
+	> .container .navbar-nav > .nav-item > .btn-reset.nav-link,
+	> .container .navbar-nav > .nav-item > a {
+		color: var(--neutral-white) !important;
+	}
+
+	> .container .navbar-nav > .nav-item > .nav-link:hover,
+	> .container .navbar-nav > .nav-item > .btn-reset.nav-link:hover,
+	> .container .navbar-nav > .nav-item > a:hover {
+		color: var(--primary-light) !important;
+	}
+
+	/* icons that are part of top-level nav items only */
+	> .container .navbar-nav > .nav-item .es-icon,
+	> .container .navbar-nav > .nav-item .icon,
+	> .container .navbar-nav > .nav-item svg.icon {
+		stroke: var(--neutral-white) !important;
+		fill: var(--neutral-white) !important;
+	}
+
+	/* Keep dropdown panels (the popout menus) readable by using neutral background
+	   and default text color. This prevents dark navbar-bg from making dropdown text
+	   unreadable. */
+	.dropdown-menu {
+		background-color: var(--neutral-white);
+		color: var(--text-color);
+		/* ensure items inside dropdown use the normal (dark) text for readability */
+		.dropdown-item {
+			color: var(--text-color) !important;
+		}
+	}
+}
