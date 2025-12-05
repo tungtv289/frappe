@@ -1,14 +1,117 @@
 <div class="sticky-top">
 	<header class="navbar navbar-expand" role="navigation">
 		<div class="container">
-			<a class="navbar-brand navbar-home" href="/app">
-				<img
-					class="app-logo"
-					src="{{ frappe.boot.app_logo_url }}"
-					alt="{{ __("App Logo") }}"
-				>
-			</a>
-			<ul class="nav navbar-nav d-none d-sm-flex" id="navbar-breadcrumbs"></ul>
+			<!-- Menu nhiều cấp giống Multi Menu -->
+			<ul class="navbar-nav d-none d-sm-flex">
+				<li class="nav-item dropdown">
+					<a
+						class="nav-link dropdown-toggle"
+						href="#"
+						role="button"
+						data-toggle="dropdown"
+						aria-haspopup="true"
+						aria-expanded="false"
+					>
+						Quản lý vật liệu ấn chỉ
+					</a>
+
+					<ul class="dropdown-menu">
+						<li class="dropdown-submenu mt-2">
+							<a
+								class="dropdown-item dropdown-toggle"
+								href="#"
+								role="button"
+								data-toggle="dropdown"
+								aria-haspopup="true"
+								aria-expanded="false"
+							>
+								Vật liệu ấn chỉ
+							</a>
+							<ul class="dropdown-menu">
+								<li><a class="dropdown-item" href="/app/item">{{ __("Item") }}</a></li>
+								<li><a class="dropdown-item" href="/app/item-group">{{ __("Item Group") }}</a></li>
+								<li><a class="dropdown-item" href="/app/uom">{{ __("UOM") }}</a></li>
+								<li><a class="dropdown-item" href="/app/warehouse">{{ __("Warehouse") }}</a></li>
+							</ul>
+						</li>
+
+						<li class="dropdown-submenu mt-2">
+							<a
+								class="dropdown-item dropdown-toggle"
+								href="#"
+								role="button"
+								data-toggle="dropdown"
+								aria-haspopup="true"
+								aria-expanded="false"
+							>
+								Nhập - Xuất vật liệu ấn chỉ
+							</a>
+							<ul class="dropdown-menu">
+								<li><a class="dropdown-item" href="/app/stock-entry">Danh sách phiếu kho</a></li>
+								<li><a class="dropdown-item" href="/app/stock-entry/new?stock_entry_type=Material%20Receipt">Nhập vật liệu ấn chỉ</a></li>
+								<li><a class="dropdown-item" href="/app/stock-entry/new?stock_entry_type=Material%20Issue">Xuất vật liệu ấn chỉ</a></li>
+								<li><a class="dropdown-item" href="/app/stock-entry/new?stock_entry_type=Material%20Transfer">Điều chuyển nội bộ</a></li>
+							</ul>
+						</li>
+
+						<li class="dropdown-submenu mt-2">
+							<a
+								class="dropdown-item dropdown-toggle"
+								href="#"
+								role="button"
+								data-toggle="dropdown"
+								aria-haspopup="true"
+								aria-expanded="false"
+							>
+								Báo cáo thống kê
+							</a>
+							<ul class="dropdown-menu">
+								<li><a class="dropdown-item" href="/app/stock-balance">{{ __("Stock Summary") }}</a></li>
+								<li><a class="dropdown-item" href="/app/query-report/Stock%20Balance">{{ __("Stock Balance") }}</a></li>
+								<li><a class="dropdown-item" href="/app/query-report/Stock%20Ledger">{{ __("Stock Ledger") }}</a></li>
+							</ul>
+						</li>
+					</ul>
+				</li>
+			</ul>
+
+			<ul class="navbar-nav d-none d-sm-flex">
+				<li class="nav-item dropdown">
+					<a
+						class="nav-link dropdown-toggle"
+						href="#"
+						role="button"
+						data-toggle="dropdown"
+						aria-haspopup="true"
+						aria-expanded="false"
+					>
+						Quản lý người dùng
+					</a>
+					<ul class="dropdown-menu" aria-labelledby="erp-multilevel-menu">
+						<li><a class="dropdown-item" href="/app/user">Danh sách người dùng</a></li>
+
+						<li class="dropdown-submenu">
+							<a class="dropdown-item dropdown-toggle" href="#" role="button" aria-haspopup="true" aria-expanded="false">Level 1 — Submenu</a>
+							<ul class="dropdown-menu">
+								<li><a class="dropdown-item" href="#">Level 2 — Item 1</a></li>
+
+								<li class="dropdown-submenu">
+									<a class="dropdown-item dropdown-toggle" href="#" role="button" aria-haspopup="true" aria-expanded="false">Level 2 — Submenu</a>
+									<ul class="dropdown-menu">
+										<li><a class="dropdown-item" href="#">Level 3 — Item 1</a></li>
+										<li><a class="dropdown-item" href="#">Level 3 — Item 2</a></li>
+									</ul>
+								</li>
+
+								<li><a class="dropdown-item" href="#">Level 3 — Submenu</a></li>
+							</ul>
+						</li>
+
+						<li><a class="dropdown-item" href="/app/user-permission">Quyền truy cập cá nhân</a></li>
+					</ul>
+				</li>
+			</ul>
+
 			<div class="collapse navbar-collapse justify-content-end">
 				<form class="form-inline fill-width justify-content-end" role="search" onsubmit="return false;">
 					{% if (frappe.boot.read_only) { %}

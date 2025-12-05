@@ -324,3 +324,68 @@ frappe.ui.toolbar.setup_session_defaults = function () {
 		},
 	});
 };
+
+// Multi-level dropdown (fly-out) support
+;(function ($) {
+	frappe.provide("frappe.ui.toolbar.multilevel");
+
+	// Initialize handlers after toolbar is rendered
+	$(document).on("toolbar_setup", function () {
+		// open submenu on hover (desktop)
+		$(document).on("mouseenter", ".navbar .dropdown-submenu", function () {
+			var $this = $(this);
+			clearTimeout($this.data("closeTimeout"));
+
+			// close sibling submenus
+			$this.siblings(".dropdown-submenu").each(function () {
+				$(this).removeClass("show").children(".dropdown-menu").removeClass("show");
+				$(this).children("a.dropdown-toggle").attr("aria-expanded", "false");
+			});
+
+			$this.addClass("show").children(".dropdown-menu").addClass("show");
+			$this.children("a.dropdown-toggle").attr("aria-expanded", "true");
+		});
+
+		// schedule close on mouseleave to avoid flicker
+		$(document).on("mouseleave", ".navbar .dropdown-submenu", function () {
+			var $this = $(this);
+			var t = setTimeout(function () {
+				$this.removeClass("show").children(".dropdown-menu").removeClass("show");
+				$this.children("a.dropdown-toggle").attr("aria-expanded", "false");
+			}, 200);
+			$this.data("closeTimeout", t);
+		});
+
+		// click/tap to toggle submenu (touch & keyboard friendly)
+		$(document).on("click", ".navbar .dropdown-submenu > a.dropdown-toggle", function (e) {
+			// prevent Bootstrap's dropdown handlers from closing the parent
+			e.preventDefault();
+			e.stopPropagation();
+			if (e.stopImmediatePropagation) {
+				e.stopImmediatePropagation();
+			}
+			var $parent = $(this).parent();
+			if ($parent.hasClass("show")) {
+				$parent.removeClass("show").children(".dropdown-menu").removeClass("show");
+				$(this).attr("aria-expanded", "false");
+			} else {
+				$parent
+					.siblings(".dropdown-submenu")
+					.removeClass("show")
+					.children(".dropdown-menu")
+					.removeClass("show")
+					.children("a.dropdown-toggle")
+					.attr("aria-expanded", "false");
+
+				$parent.addClass("show").children(".dropdown-menu").addClass("show");
+				$(this).attr("aria-expanded", "true");
+			}
+		});
+
+		// when a top-level dropdown closes, ensure nested submenus are closed
+		$(document).on("hide.bs.dropdown", ".navbar .dropdown", function () {
+			$(this).find(".dropdown-submenu").removeClass("show").children(".dropdown-menu").removeClass("show");
+			$(this).find("a.dropdown-toggle").attr("aria-expanded", "false");
+		});
+	});
+})(jQuery);
