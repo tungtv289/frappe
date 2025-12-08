@@ -29,8 +29,18 @@ frappe.views.BaseList = class BaseList {
 			this.setup_side_bar,
 			this.setup_main_section,
 			this.setup_view,
-			this.setup_view_menu,
-		].map((fn) => fn.bind(this));
+		];
+
+		// Determine if current user is Administrator (by username or role)
+		const is_admin_user =
+			(frappe.session && frappe.session.user === "Administrator") ||
+			(frappe.user && frappe.user.has_role && frappe.user.has_role("System Manager"));
+
+		if (is_admin_user) {
+			tasks.push(this.setup_view_menu);
+		}
+
+		tasks = tasks.map((fn) => fn.bind(this));
 
 		this.init_promise = frappe.run_serially(tasks);
 		return this.init_promise;
