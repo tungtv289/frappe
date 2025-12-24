@@ -23,7 +23,7 @@ frappe.ui.get_print_settings = function (
 				{ value: "Landscape", label: __("Landscape") },
 				{ value: "Portrait", label: __("Portrait") },
 			],
-			default: "Landscape",
+			default: "Portrait",
 		},
 		{
 			fieldtype: "Link",
@@ -39,19 +39,19 @@ frappe.ui.get_print_settings = function (
 				},
 			}),
 		},
-		{
-			fieldtype: "Check",
-			fieldname: "with_letter_head",
-			label: __("With Letter head"),
-		},
-		{
-			fieldtype: "Link",
-			fieldname: "letter_head",
-			label: __("Letter Head"),
-			depends_on: "with_letter_head",
-			options: "Letter Head",
-			default: letter_head || default_letter_head,
-		},
+		// {
+		// 	fieldtype: "Check",
+		// 	fieldname: "with_letter_head",
+		// 	label: __("With Letter head"),
+		// },
+		// {
+		// 	fieldtype: "Link",
+		// 	fieldname: "letter_head",
+		// 	label: __("Letter Head"),
+		// 	depends_on: "with_letter_head",
+		// 	options: "Letter Head",
+		// 	default: letter_head || default_letter_head,
+		// },
 	];
 
 	if (has_filters) {
