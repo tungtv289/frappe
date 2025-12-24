@@ -68,7 +68,7 @@ frappe.ui.form.PrintView = class {
 			icon: "full-page",
 		});
 
-		this.page.add_button(__("PDF"), () => this.render_pdf(), { icon: "small-file" });
+		// this.page.add_button(__("PDF"), () => this.render_pdf(), { icon: "small-file" });
 
 		this.page.add_button(__("Refresh"), () => this.refresh_print_format(), {
 			icon: "refresh",
@@ -108,6 +108,8 @@ frappe.ui.form.PrintView = class {
 				this.preview();
 			},
 		}).$input;
+		// ẩn UI
+		this.language_selector.closest(".form-group").hide();
 
 		let description = "";
 		if (!cint(this.print_settings.repeat_header_footer)) {
@@ -131,6 +133,7 @@ frappe.ui.form.PrintView = class {
 				print_view.preview();
 			},
 		}).$input;
+		this.letterhead_selector.closest(".form-group").hide();
 		this.sidebar_dynamic_section = $(`<div class="dynamic-settings"></div>`).appendTo(
 			this.sidebar
 		);
@@ -185,23 +188,23 @@ frappe.ui.form.PrintView = class {
 		this.setup_customize_dialog();
 
 		// print designer link
-		if (Object.keys(frappe.boot.versions).includes("print_designer")) {
-			this.page.add_inner_message(`
-			<a style="line-height: 2.4" href="/app/print-designer?doctype=${this.frm.doctype}">
-				${__("Try the new Print Designer")}
-			</a>
-			`);
-		} else {
-			this.page.add_inner_message(`
-			<a style="line-height: 2.4" href="https://frappecloud.com/marketplace/apps/print_designer?utm_source=framework-desk&utm_medium=print-view&utm_campaign=try-link">
-				${__("Try the new Print Designer")}
-			</a>
-			`);
-		}
+		// if (Object.keys(frappe.boot.versions).includes("print_designer")) {
+		// 	this.page.add_inner_message(`
+		// 	<a style="line-height: 2.4" href="/app/print-designer?doctype=${this.frm.doctype}">
+		// 		${__("Try the new Print Designer")}
+		// 	</a>
+		// 	`);
+		// } else {
+		// 	this.page.add_inner_message(`
+		// 	<a style="line-height: 2.4" href="https://frappecloud.com/marketplace/apps/print_designer?utm_source=framework-desk&utm_medium=print-view&utm_campaign=try-link">
+		// 		${__("Try the new Print Designer")}
+		// 	</a>
+		// 	`);
+		// }
 		let tasks = [
 			this.set_default_print_format,
 			this.set_default_print_language,
-			this.set_default_letterhead,
+			// this.set_default_letterhead,
 			this.preview,
 		].map((fn) => fn.bind(this));
 
