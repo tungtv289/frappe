@@ -1698,7 +1698,7 @@ frappe.views.QueryReport = class QueryReport extends frappe.views.BaseList {
 						false,
 						(print_settings) => this.print_report(print_settings),
 						this.report_doc.letter_head,
-						None,
+						false,
 						false
 					);
 					this.add_portrait_warning(dialog);
@@ -1713,7 +1713,7 @@ frappe.views.QueryReport = class QueryReport extends frappe.views.BaseList {
 						false,
 						(print_settings) => this.pdf_report(print_settings),
 						this.report_doc.letter_head,
-						None,
+						false,
 						false
 					);
 
