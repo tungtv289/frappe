@@ -20,8 +20,8 @@ frappe.ui.get_print_settings = function (
 			fieldname: "orientation",
 			label: __("Orientation"),
 			options: [
-				{ value: "Landscape", label: __("Landscape") },
 				{ value: "Portrait", label: __("Portrait") },
+				{ value: "Landscape", label: __("Landscape") },
 			],
 			default: "Landscape",
 		},
