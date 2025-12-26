@@ -787,12 +787,17 @@ frappe.views.QueryReport = class QueryReport extends frappe.views.BaseList {
 			const part2 = __("To get the updated report, click on {0}.", [__("Rebuild")]);
 			const part3 = __("See all past reports.");
 
+			const is_admin = frappe.session.user === "Administrator";
+
 			this.show_status(`
 				<div class="indicator orange">
 					<span>
 						${part1}
 						${part2}
-						<a href="/app/List/Prepared%20Report?report_name=${this.report_name}"> ${part3}</a>
+						${is_admin ? `
+							<a href="/app/List/Prepared%20Report?report_name=${this.report_name}">
+								${part3}
+							</a>` : ""}
 					</span>
 				</div>
 			`);
