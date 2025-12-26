@@ -179,6 +179,7 @@
 						</button>
 					</li>
 					<li class="vertical-bar d-none d-sm-block"></li>
+					{% if frappe.user.has_role('System Manager') %}
 					<li class="nav-item dropdown dropdown-help dropdown-mobile d-none d-lg-block">
 						<button
 							class="btn-reset nav-link"
@@ -211,6 +212,7 @@
 							{% endfor %}
 						</div>
 					</li>
+					{% endif %}
 					<li class="nav-item dropdown dropdown-navbar-user dropdown-mobile">
 						<button
 							class="btn-reset nav-link"
