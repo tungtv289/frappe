@@ -133,9 +133,25 @@
 	.dropdown-menu {
 		background-color: var(--neutral-white);
 		color: var(--text-color);
+		/* Shadow enhancement for better visibility */
+		box-shadow: 0 12px 32px rgba(0, 0, 0, 0.3);
+		border: 1px solid var(--border-color);
+		border-bottom: 2px solid var(--primary);
+		border-radius: var(--border-radius);
 		/* ensure items inside dropdown use the normal (dark) text for readability */
 		.dropdown-item {
 			color: var(--text-color) !important;
+			transition: all 0.2s ease;
+			border-left: 3px solid transparent;
+
+			&:hover {
+				color: var(--primary) !important;
+				padding-left: 13px;
+			}
+
+			&.active {
+				color: var(--primary) !important;
+			}
 		}
 	}
 }
@@ -161,6 +177,9 @@
             z-index: 1050;
             /* keep same look as other dropdowns */
             border-radius: var(--border-radius, 0.25rem);
+            /* Enhanced shadow for nested menus */
+            box-shadow: -4px 12px 40px rgba(0, 0, 0, 0.3) !important;
+            background: linear-gradient(135deg, var(--neutral-white) 0%, #fafbfc 100%);
         }
     }
 
