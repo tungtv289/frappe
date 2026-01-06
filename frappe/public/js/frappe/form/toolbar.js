@@ -363,39 +363,45 @@ frappe.ui.form.Toolbar = class Toolbar {
 		}
 
 		// email
-		if (frappe.model.can_email(null, me.frm) && me.frm.doc.docstatus < 2) {
-			this.page.add_menu_item(
-				__("Email"),
-				function () {
-					me.frm.email_doc();
-				},
-				true,
-				{
-					shortcut: "Ctrl+E",
-					condition: () => !this.frm.is_new(),
-				}
-			);
+		if (frappe.user.has_role("System Manager")) {
+			if (frappe.model.can_email(null, me.frm) && me.frm.doc.docstatus < 2) {
+				this.page.add_menu_item(
+					__("Email"),
+					function () {
+						me.frm.email_doc();
+					},
+					true,
+					{
+						shortcut: "Ctrl+E",
+						condition: () => !this.frm.is_new(),
+					}
+				);
+			}
 		}
 
 		// go to field modal
-		this.page.add_menu_item(
-			__("Jump to field"),
-			function () {
-				me.show_jump_to_field_dialog();
-			},
-			true,
-			"Ctrl+J"
-		);
+		if (frappe.user.has_role("System Manager")) {
+			this.page.add_menu_item(
+				__("Jump to field"),
+				function () {
+					me.show_jump_to_field_dialog();
+				},
+				true,
+				"Ctrl+J"
+			);
+		}
 
 		// Linked With
-		if (!me.frm.meta.issingle) {
-			this.page.add_menu_item(
-				__("Links"),
-				function () {
-					me.show_linked_with();
-				},
-				true
-			);
+		if (frappe.user.has_role("System Manager")) {
+			if (!me.frm.meta.issingle) {
+				this.page.add_menu_item(
+					__("Links"),
+					function () {
+						me.show_linked_with();
+					},
+					true
+				);
+			}
 		}
 
 		// duplicate
@@ -411,13 +417,15 @@ frappe.ui.form.Toolbar = class Toolbar {
 		}
 
 		// copy doc to clipboard
-		this.page.add_menu_item(
-			__("Copy to Clipboard"),
-			function () {
-				frappe.utils.copy_to_clipboard(JSON.stringify(me.frm.doc));
-			},
-			true
-		);
+		if (frappe.user.has_role("System Manager")) {
+			this.page.add_menu_item(
+				__("Copy to Clipboard"),
+				function () {
+					frappe.utils.copy_to_clipboard(JSON.stringify(me.frm.doc));
+				},
+				true
+			);
+		}
 
 		// rename
 		if (this.can_rename()) {
@@ -431,13 +439,15 @@ frappe.ui.form.Toolbar = class Toolbar {
 		}
 
 		// reload
-		this.page.add_menu_item(
-			__("Reload"),
-			function () {
-				me.frm.reload_doc();
-			},
-			true
-		);
+		if (frappe.user.has_role("System Manager")) {
+			this.page.add_menu_item(
+				__("Reload"),
+				function () {
+					me.frm.reload_doc();
+				},
+				true
+			);
+		}
 
 		// delete
 		if (
@@ -459,18 +469,21 @@ frappe.ui.form.Toolbar = class Toolbar {
 			);
 		}
 
-		this.page.add_menu_item(
-			__("Remind Me"),
-			() => {
-				let reminder_maanger = new ReminderManager({ frm: this.frm });
-				reminder_maanger.show();
-			},
-			true,
-			{
-				shortcut: "Shift+R",
-				condition: () => !this.frm.is_new(),
-			}
-		);
+		if (frappe.user.has_role("System Manager")) {
+			this.page.add_menu_item(
+				__("Remind Me"),
+				() => {
+					let reminder_maanger = new ReminderManager({ frm: this.frm });
+					reminder_maanger.show();
+				},
+				true,
+				{
+					shortcut: "Shift+R",
+					condition: () => !this.frm.is_new(),
+				}
+			);
+		}
+		
 		//
 		// Undo and redo
 		this.page.add_menu_item(
