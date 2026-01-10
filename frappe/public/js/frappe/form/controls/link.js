@@ -297,13 +297,15 @@ frappe.ui.form.ControlLink = class ControlLink extends frappe.ui.form.ControlDat
 						}
 						r.message = me.merge_duplicates(r.message);
 
+						const is_admin = frappe.session.user === "Administrator" || frappe.user.has_role("System Manager");
+
 						// show filter description in awesomplete
 						let filter_string = me.df.filter_description
 							? me.df.filter_description
 							: args.filters
 							? me.get_filter_description(args.filters)
 							: null;
-						if (filter_string) {
+						if (filter_string && is_admin) {
 							r.message.push({
 								html: `<span class="text-muted" style="line-height: 1.5">${filter_string}</span>`,
 								value: "",
