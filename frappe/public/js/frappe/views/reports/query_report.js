@@ -761,20 +761,20 @@ frappe.views.QueryReport = class QueryReport extends frappe.views.BaseList {
 
 	add_prepared_report_buttons(doc) {
 		if (doc) {
-			this.page.add_inner_button(
-				__("Download Report"),
-				function () {
-					window.open(
-						frappe.urllib.get_full_url(
-							"/api/method/frappe.core.doctype.prepared_report.prepared_report.download_attachment?" +
-								"dn=" +
-								encodeURIComponent(doc.name)
-						)
-					);
-				},
-				__("Actions")
-			);
-
+			// this.page.add_inner_button(
+			// 	__("Download Report"),
+			// 	function () {
+			// 		window.open(
+			// 			frappe.urllib.get_full_url(
+			// 				"/api/method/frappe.core.doctype.prepared_report.prepared_report.download_attachment?" +
+			// 					"dn=" +
+			// 					encodeURIComponent(doc.name)
+			// 			)
+			// 		);
+			// 	},
+			// 	__("Actions")
+			// );
+			//
 			let pretty_diff = frappe.datetime.comment_when(doc.report_end_time);
 			const days_old = frappe.datetime.get_day_diff(
 				frappe.datetime.now_datetime(),
