@@ -29,6 +29,7 @@ frappe.ui.get_print_settings = function (
 			fieldtype: "Link",
 			fieldname: "report",
 			label: __("Report"),
+			reqd: 1,
 			options: "Print Format",
 			get_query: () => ({
 				filters: {
