@@ -11,115 +11,201 @@
 				</a>
 				<ul class="nav navbar-nav d-none d-sm-flex" id="navbar-breadcrumbs"></ul>
 			{% else %}
-				<!-- Menu nhiều cấp giống Multi Menu -->
+				{%
+
+				let canRead = frappe.boot.user.can_read || [];
+				let canGetReport = frappe.boot.user.can_get_report || [];
+
+
+				let canItem        = canRead.includes("Item");
+				let canItemGroup   = canRead.includes("Item Group");
+				let canUOM         = canRead.includes("UOM");
+				let canWarehouse   = canRead.includes("Warehouse");
+
+				let canStockEntry      = canRead.includes("Stock Entry");
+				let canPageStockBalancePage = canGetReport.includes("Stock Ledger Entry");
+
+				let canReportStockBalance = canGetReport.includes("Stock Ledger Entry");
+				let canReportStockLedger  = canGetReport.includes("Stock Ledger Entry");
+
+				let canUser           = canRead.includes("User") && frappe.user.has_role("35xx - System Manager");
+				let canUserPermission = canRead.includes("User Permission");
+
+
+				let showVatLieuSub =
+					canItem || canItemGroup || canUOM || canWarehouse;
+
+				let showNhapXuatSub =
+					canStockEntry;
+
+				let showBaoCaoSub =
+					canReportStockBalance || canReportStockLedger;
+
+				let showQuanLyVatLieu =
+					showVatLieuSub || showNhapXuatSub || canPageStockBalancePage || showBaoCaoSub;
+
+				let showQuanLyNguoiDung =
+					canUser || canUserPermission;
+
+				%}
+
+
+
+				{% if (showQuanLyVatLieu) { %}
 				<ul class="navbar-nav d-none d-sm-flex">
 					<li class="nav-item dropdown">
-						<a
-							class="nav-link dropdown-toggle"
-							href="#"
-							role="button"
-							data-toggle="dropdown"
-							aria-haspopup="true"
-							aria-expanded="false"
-						>
+
+						<a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">
 							Quản lý vật liệu ấn chỉ
 						</a>
 
 						<ul class="dropdown-menu">
+
+							<!-- VẬT LIỆU -->
+							{% if (showVatLieuSub) { %}
 							<li class="dropdown-submenu">
-								<a
-									class="dropdown-item dropdown-toggle"
-									href="#"
-									role="button"
-									data-toggle="dropdown"
-									aria-haspopup="true"
-									aria-expanded="false"
-								>
+								<a class="dropdown-item dropdown-toggle" href="#" data-toggle="dropdown">
 									Vật liệu ấn chỉ
 								</a>
 								<ul class="dropdown-menu">
-									<li><a class="dropdown-item" href="/app/item">{{ __("Item") }}</a></li>
-									<li><a class="dropdown-item" href="/app/item-group">{{ __("Item Group") }}</a></li>
-									<li><a class="dropdown-item" href="/app/uom">{{ __("UOM") }}</a></li>
-									<li><a class="dropdown-item" href="/app/warehouse">{{ __("Warehouse") }}</a></li>
+
+									{% if (canItem) { %}
+										<li><a class="dropdown-item" href="/app/item">{{ __("Item") }}</a></li>
+									{% } %}
+
+									{% if (canItemGroup) { %}
+										<li><a class="dropdown-item" href="/app/item-group">{{ __("Item Group") }}</a></li>
+									{% } %}
+
+									{% if (canUOM) { %}
+										<li><a class="dropdown-item" href="/app/uom">{{ __("UOM") }}</a></li>
+									{% } %}
+
+									{% if (canWarehouse) { %}
+										<li><a class="dropdown-item" href="/app/warehouse">{{ __("Warehouse") }}</a></li>
+									{% } %}
+
 								</ul>
 							</li>
+							{% } %}
 
+
+							<!-- NHẬP - XUẤT -->
+							{% if (showNhapXuatSub) { %}
 							<li class="dropdown-submenu">
-								<a
-									class="dropdown-item dropdown-toggle"
-									href="#"
-									role="button"
-									data-toggle="dropdown"
-									aria-haspopup="true"
-									aria-expanded="false"
-								>
+								<a class="dropdown-item dropdown-toggle" href="#" data-toggle="dropdown">
 									Nhập - Xuất vật liệu ấn chỉ
 								</a>
 								<ul class="dropdown-menu">
-									<li><a class="dropdown-item" href="/app/stock-entry">Danh sách phiếu kho</a></li>
-									<li><a class="dropdown-item" href="/app/stock-entry/new?stock_entry_type=Material%20Receipt">Nhập vật liệu ấn chỉ</a></li>
-									<li><a class="dropdown-item" href="/app/stock-entry/new?stock_entry_type=Material%20Issue">Xuất vật liệu ấn chỉ</a></li>
-									<li><a class="dropdown-item" href="/app/stock-entry/new?stock_entry_type=Material%20Transfer">Điều chuyển nội bộ</a></li>
+
+									<li>
+										<a class="dropdown-item" href="/app/stock-entry">
+											Danh sách phiếu kho
+										</a>
+									</li>
+
+									<li>
+										<a class="dropdown-item"
+										href="/app/stock-entry/new?stock_entry_type=Material%20Receipt">
+											Nhập vật liệu
+										</a>
+									</li>
+
+									<li>
+										<a class="dropdown-item"
+										href="/app/stock-entry/new?stock_entry_type=Material%20Issue">
+											Xuất vật liệu
+										</a>
+									</li>
+
+									<li>
+										<a class="dropdown-item"
+										href="/app/stock-entry/new?stock_entry_type=Material%20Transfer">
+											Điều chuyển nội bộ
+										</a>
+									</li>
+
 								</ul>
 							</li>
+							{% } %}
 
-							<li><a class="dropdown-item" href="/app/stock-balance">{{ __("Stock Summary") }}</a></li>
-							
+
+							<!-- STOCK SUMMARY PAGE -->
+							{% if (canPageStockBalancePage) { %}
+								<li>
+									<a class="dropdown-item" href="/app/stock-balance">
+										{{ __("Stock Summary") }}
+									</a>
+								</li>
+							{% } %}
+
+
+							<!-- BÁO CÁO -->
+							{% if (showBaoCaoSub) { %}
 							<li class="dropdown-submenu">
-								<a
-									class="dropdown-item dropdown-toggle"
-									href="#"
-									role="button"
-									data-toggle="dropdown"
-									aria-haspopup="true"
-									aria-expanded="false"
-								>
+								<a class="dropdown-item dropdown-toggle" href="#" data-toggle="dropdown">
 									Báo cáo thống kê
 								</a>
 								<ul class="dropdown-menu">
-									<li><a class="dropdown-item" href="/app/query-report/Stock%20Balance">{{ __("Stock Balance") }}</a></li>
-									<li><a class="dropdown-item" href="/app/query-report/Stock%20Ledger">{{ __("Stock Ledger") }}</a></li>
+
+									{% if (canReportStockBalance) { %}
+										<li>
+											<a class="dropdown-item"
+											href="/app/query-report/Stock%20Balance">
+												{{ __("Stock Balance") }}
+											</a>
+										</li>
+									{% } %}
+
+									{% if (canReportStockLedger) { %}
+										<li>
+											<a class="dropdown-item"
+											href="/app/query-report/Stock%20Ledger">
+												{{ __("Stock Ledger") }}
+											</a>
+										</li>
+									{% } %}
+
 								</ul>
 							</li>
+							{% } %}
+
 						</ul>
 					</li>
 				</ul>
+				{% } %}
 
+
+				{% if (showQuanLyNguoiDung) { %}
 				<ul class="navbar-nav d-none d-sm-flex">
 					<li class="nav-item dropdown">
-						<a
-							class="nav-link dropdown-toggle"
-							href="#"
-							role="button"
-							data-toggle="dropdown"
-							aria-haspopup="true"
-							aria-expanded="false"
-						>
+
+						<a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">
 							Quản lý người dùng
 						</a>
-						<ul class="dropdown-menu" aria-labelledby="erp-multilevel-menu">
-							<li><a class="dropdown-item" href="/app/user">Danh sách người dùng</a></li>
 
-							<!-- <li class="dropdown-submenu">
-								<a class="dropdown-item dropdown-toggle" href="#" role="button" aria-haspopup="true" aria-expanded="false">Level 1 — Submenu</a>
-								<ul class="dropdown-menu">
-									<li><a class="dropdown-item" href="#">Level 2 — Item 1</a></li>
-									<li class="dropdown-submenu">
-										<a class="dropdown-item dropdown-toggle" href="#" role="button" aria-haspopup="true" aria-expanded="false">Level 2 — Submenu</a>
-										<ul class="dropdown-menu">
-											<li><a class="dropdown-item" href="#">Level 3 — Item 1</a></li>
-											<li><a class="dropdown-item" href="#">Level 3 — Item 2</a></li>
-										</ul>
-									</li>
-									<li><a class="dropdown-item" href="#">Level 3 — Submenu</a></li>
-								</ul>
-							</li> -->
+						<ul class="dropdown-menu">
 
-							<li><a class="dropdown-item" href="/app/user-permission">Quyền truy cập cá nhân</a></li>
+							{% if (canUser) { %}
+								<li>
+									<a class="dropdown-item" href="/app/user">
+										Danh sách người dùng
+									</a>
+								</li>
+							{% } %}
+
+							{% if (canUserPermission) { %}
+								<li>
+									<a class="dropdown-item" href="/app/user-permission">
+										Quyền truy cập cá nhân
+									</a>
+								</li>
+							{% } %}
+
 						</ul>
 					</li>
 				</ul>
+				{% } %}
 			{% endif %}
 
 			<div class="collapse navbar-collapse justify-content-end">
