@@ -1711,22 +1711,22 @@ frappe.views.QueryReport = class QueryReport extends frappe.views.BaseList {
 				condition: () => frappe.model.can_print(this.report_doc.ref_doctype),
 				standard: true,
 			},
-			{
-				label: __("PDF"),
-				action: () => {
-					let dialog = frappe.ui.get_print_settings(
-						false,
-						(print_settings) => this.pdf_report(print_settings),
-						this.report_doc.letter_head,
-						false,
-						false
-					);
-
-					this.add_portrait_warning(dialog);
-				},
-				condition: () => frappe.model.can_print(this.report_doc.ref_doctype),
-				standard: true,
-			},
+			// {
+			// 	label: __("PDF"),
+			// 	action: () => {
+			// 		let dialog = frappe.ui.get_print_settings(
+			// 			false,
+			// 			(print_settings) => this.pdf_report(print_settings),
+			// 			this.report_doc.letter_head,
+			// 			false,
+			// 			false
+			// 		);
+			//
+			// 		this.add_portrait_warning(dialog);
+			// 	},
+			// 	condition: () => frappe.model.can_print(this.report_doc.ref_doctype),
+			// 	standard: true,
+			// },
 			{
 				label: __("Export"),
 				action: () => this.export_report(),
